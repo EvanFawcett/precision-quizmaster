@@ -1,1 +1,1 @@
-web: waitress-serve --port=$PORT precision-quizmaster:app
+web: waitress-serve --port=$PORT app:app
