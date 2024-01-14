@@ -6,7 +6,20 @@
     <title>precision-quizmaster</title>
 </head>
 <body>
-    <h1>Testing Welcome to precision-quizmaster!</h1>
+    <h1>Welcome to precision-quizmaster!</h1>
     <p>This is a simple quiz application.</p>
+
+    <form method="POST" action="/create_quiz">
+        <label for="question">Question:</label>
+        <input type="text" id="question" name="question" required>
+
+        <label for="answer1">Answer 1:</label>
+        <input type="text" id="answer1" name="answer1" required>
+
+        <label for="answer2">Answer 2:</label>
+        <input type="text" id="answer2" name="answer2" required>
+
+        <button type="submit">Create Quiz</button>
+    </form>
 </body>
 </html>
