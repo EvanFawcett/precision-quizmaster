@@ -1,1 +1,1 @@
-web: python precision-quizmaster.py
+web: waitress-serve --port=$PORT precision-quizmaster:app
