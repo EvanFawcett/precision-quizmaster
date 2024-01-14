@@ -1,1 +1,1 @@
-web: python precision-quizmaster
+web: python precision-quizmaster.py
