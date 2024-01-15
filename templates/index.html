@@ -10,11 +10,11 @@
     <p>This is a simple quiz creating application.</p>
 
     <h2>Quiz data:</h2>
-    {% for item in quiz_data %}
-    <p>Question: {{ item['question'] }}</p>
+    {% for question, data in quiz_data.items() %}
+    <p>Question: {{ question }}</p>
     <ul>
-        {% for answer in item['answers'] %}
-        <li>{{ answer }}</li>
+        {% for answer, answer_data in data['answers'].items() %}
+        <li>{{ answer }} - Follow-up Question: {{ answer_data['follow_up_question'] }}</li>
         {% endfor %}
     </ul>
     {% endfor %}
@@ -24,11 +24,17 @@
         <input type="text" id="question" name="question" placeholder="Ask a question..." required>
 
         <div id="answer-container">
+
             <label for="answer1">Answer 1:</label>
             <input type="text" id="answer1" name="answer1" placeholder="Enter answer..." required>
+            <label for="follow_up_question1">Follow-up Question:</label>
+            <input type="text" id="follow_up_question1" name="follow_up_question1" placeholder="Ask a follow-up question...">
 
             <label for="answer2">Answer 2:</label>
             <input type="text" id="answer2" name="answer2" placeholder="Enter answer..." required>
+            <label for="follow_up_question2">Follow-up Question:</label>
+            <input type="text" id="follow_up_question2" name="follow_up_question2" placeholder="Ask a follow-up question...">
+
         </div>
 
         <!-- Button to dynamically add more answer input fields -->
@@ -60,16 +66,38 @@
             document.getElementById("answer-container").appendChild(newLabel);
             document.getElementById("answer-container").appendChild(newAnswerField);
 
+            // Create a new follow-up question input field
+            var newFollowUpField = document.createElement("input");
+            newFollowUpField.type = "text";
+            newFollowUpField.name = "follow_up_question" + (document.querySelectorAll('input[name^="follow_up_question"]').length + 1);
+            newFollowUpField.placeholder = "Ask a follow-up question...";
+
+            // Create a label for the new follow-up question input field
+            var newFollowUpLabel = document.createElement("label");
+            newFollowUpLabel.htmlFor = newFollowUpField.name;
+            newFollowUpLabel.textContent = "Follow-up Question " + (document.querySelectorAll('input[name^="follow_up_question"]').length + 1) + ":";
+
+            // Apend the new follow-up question input field and label to answer container
+            document.getElementById("answer-container").appendChild(newFollowUpLabel);
+            document.getElementById("answer-container").appendChild(newFollowUpField);
+
         }
 
         function removeAnswerField() {
             var answerFields = document.querySelectorAll('input[name^="answer"]');
+            var followUpFields = document.querySelectorAll('input[name^="follow_up_question"]');
             if (answerFields.length > 2) {
                 // Remove the last answer input field and its label
                 var lastAnswerField = answerFields[answerFields.length - 1];
                 var lastLabel = document.querySelector('label[for="' + lastAnswerField.name + '"]');
                 lastAnswerField.remove();
                 lastLabel.remove();
+
+                //Remove the last follow-up question input field and its label
+                var lastFollowUpField = followUpFields[followUpFields.length - 1];
+                var lastFollowUpLabel = document.querySelector('label[for="' + lastFollowUpField.name + '"]');
+                lastFollowUpField.remove();
+                lastFollowUpLabel.remove();
             }
         }
     </script>
