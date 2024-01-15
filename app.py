@@ -15,19 +15,21 @@ def create_quiz():
     if request.method =='POST':
         #Retrieve data from the form
         question = request.form.get('question')
-        answer1 = request.form.get('answer1')
-        answer2 = request.form.get('answer2')
+        
+        # Use a list comprehension to gather all answers dynamically
+        answers = [request.form.get(f'answer{i}') for i in range(1, 10) if request.form.get(f'answer{i}')]
 
         # Store the quiz data
         quiz_data.append({
             'question': question,
-            'answers': [answer1, answer2]
+            'answers': answers
         })
 
         # For now, just print the data and modify later
         print(f"Question: {question}")
-        print(f"Answer 1: {answer1}")
-        print(f"Answer 2: {answer2}")
+        for i, answer in enumerate(answers):
+            print(f"Answer {i + 1}: {answer}")
+
 
     return render_template('index.html', quiz_data=quiz_data)
 

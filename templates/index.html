@@ -7,19 +7,71 @@
 </head>
 <body>
     <h1>Welcome to precision-quizmaster!</h1>
-    <p>This is a simple quiz application.</p>
+    <p>This is a simple quiz creating application.</p>
 
+    <h2>Quiz data:</h2>
+    {% for item in quiz_data %}
+    <p>Question: {{ item['question'] }}</p>
+    <ul>
+        {% for answer in item['answers'] %}
+        <li>{{ answer }}</li>
+        {% endfor %}
+    </ul>
+    {% endfor %}
+    <!-- Container for answer input fields -->
     <form method="POST" action="/create_quiz">
         <label for="question">Question:</label>
-        <input type="text" id="question" name="question" required>
+        <input type="text" id="question" name="question" placeholder="Ask a question..." required>
 
-        <label for="answer1">Answer 1:</label>
-        <input type="text" id="answer1" name="answer1" required>
+        <div id="answer-container">
+            <label for="answer1">Answer 1:</label>
+            <input type="text" id="answer1" name="answer1" placeholder="Enter answer..." required>
 
-        <label for="answer2">Answer 2:</label>
-        <input type="text" id="answer2" name="answer2" required>
+            <label for="answer2">Answer 2:</label>
+            <input type="text" id="answer2" name="answer2" placeholder="Enter answer..." required>
+        </div>
+
+        <!-- Button to dynamically add more answer input fields -->
+        <button type="button" onclick="addAnswerField()">Add Answer</button>
+
+        <!-- Button to dynamically remove the last answer input field -->
+        <button type="button" onclick="removeAnswerField()">Remove Answer</button>
 
         <button type="submit">Create Quiz</button>
     </form>
+
+        <!-- JavaScript to add answer input fields dynamically -->
+    <script>
+        function addAnswerField() {
+
+            // Create a new answer input field
+            var newAnswerField = document.createElement("input");
+            newAnswerField.type = "text";
+            newAnswerField.name = "answer" + (document.querySelectorAll('input[name^="answer"]').length + 1);
+            newAnswerField.placeholder = "Enter answer...";
+            newAnswerField.required = true;
+
+            // Create a label for the new answer input field
+            var newLabel = document.createElement("label");
+            newLabel.htmlFor = newAnswerField.name;
+            newLabel.textContent = "Answer " + (document.querySelectorAll('input[name^="answer"]').length + 1) + ":";
+
+            // Append the new answer input field and label to the answer container
+            document.getElementById("answer-container").appendChild(newLabel);
+            document.getElementById("answer-container").appendChild(newAnswerField);
+
+        }
+
+        function removeAnswerField() {
+            var answerFields = document.querySelectorAll('input[name^="answer"]');
+            if (answerFields.length > 2) {
+                // Remove the last answer input field and its label
+                var lastAnswerField = answerFields[answerFields.length - 1];
+                var lastLabel = document.querySelector('label[for="' + lastAnswerField.name + '"]');
+                lastAnswerField.remove();
+                lastLabel.remove();
+            }
+        }
+    </script>
 </body>
 </html>
