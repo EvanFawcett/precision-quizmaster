@@ -1,61 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>precision-quizmaster</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial scale=1.0" />
+    <title>Follow-up Question</title>
 </head>
 <body>
-    <h1>Welcome to precision-quizmaster!</h1>
-    <p>This is a simple quiz creating application.</p>
+    <h1>Follow-up Question</h1>
+    <p>Parent Question: {{parent_question}}</p>
+    <p>Parent Answer: {{parent_answer}}</p>
 
-    <h2>Quiz data:</h2>
-    {% for question, data in quiz_data.items() %}
-    <p>Question: {{ question }}</p>
-    <ul>
-        {% for answer, answer_data in data['answers'].items() %}
-        <li>
-
-            {{ answer }} - Follow-up Question: {{ answer_data['follow_up_question'] }}
-            <form method="POST" action="/follow_up_question">
-                <input type="hidden" name="parent_question" value="{{ question }}" />
-                <input type="hidden" name="parent_answer" value="{{ answer }}" />
-                <button type="submit">Go to Follow-up</button>
-            </form>
-        
-        </li>
-        {% endfor %}
-    </ul>
-    {% endfor %}
-    <!-- Container for answer input fields -->
     <form method="POST" action="/submit_set">
-        <label for="question">Question:</label>
-        <input type="text" id="question" name="question" placeholder="Ask a question..." required>
+        <label for="follow_up_question">Follow-up Question:</label>
+        <input type="text" id="follow_up_question" name="follow_up_question" placeholder="Ask a follow-up Question..." required />
 
         <div id="answer-container">
 
             <label for="answer1">Answer 1:</label>
-            <input type="text" id="answer1" name="answer1" placeholder="Enter answer..." required>
-            <label for="follow_up_question1">Follow-up Question:</label>
-            <input type="text" id="follow_up_question1" name="follow_up_question1" placeholder="Ask a follow-up question...">
-
-            <label for="answer2">Answer 2:</label>
-            <input type="text" id="answer2" name="answer2" placeholder="Enter answer..." required>
-            <label for="follow_up_question2">Follow-up Question:</label>
-            <input type="text" id="follow_up_question2" name="follow_up_question2" placeholder="Ask a follow-up question...">
+            <input type="text" id="answer1" name="answer1" placeholder="Enter answer..." required />
+            <!-- Add more answer input fields if needed -->
 
         </div>
-
         <!-- Button to dynamically add more answer input fields -->
         <button type="button" onclick="addAnswerField()">Add Answer</button>
 
         <!-- Button to dynamically remove the last answer input field -->
         <button type="button" onclick="removeAnswerField()">Remove Answer</button>
 
+        <!-- Button to submit the current set -->
         <button type="submit">Submit Set</button>
+
+        <!-- Button to go back to the home page -->
+        <button type="button" onclick="goBack()">Go Back</button>
     </form>
 
-        <!-- JavaScript to add answer input fields dynamically -->
+    <!-- JavaScript to add answer input fields dynamically and go back to the previous page -->
     <script>
         function addAnswerField() {
 
@@ -110,10 +89,17 @@
             }
         }
 
-        // Function to submit current set
+        // Function to submit the current set
         function submitSet() {
             document.getElementById("answer-container").innerHTML += "<hr>"; // Separate sets with a horizontal line
         }
+
+        // Function to go back to the previous page
+        function goBack() {
+            window.history.back();
+        }
     </script>
+
+
 </body>
 </html>
